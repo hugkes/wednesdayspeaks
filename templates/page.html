@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+    <html lang="en" dir="ltr">
+      <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Stops the favicon 404 warning -->
+        <link rel="icon" href="data:;base64,=">
+        <title>Talk to Wednesday</title>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
+        <!-- Add icon library -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+      </head>
+      <body>
+        <h1> Make Wednesday Speak </h1>
+        <img src="/static/it_is_w_md.jpg" alt="it is wednesday my dudes">
+        <!-- Add font awesome icons -->
+        <a href="https://www.instagram.com/666wednesday666/?hl=en" class="fa fa-instagram"></a>
+        <p>Type what you want Wednesday to say in the box labelled 'Text' below, and put your name in the 'Your Name' box, then hit 'Submit'</p>
+        <form method="POST">
+          <div id= "inputs">
+          <label for="text">Text:</label> <br>
+          <input name="text"> <br>
+          <label for="user">Your Name (optional):</label> <br>
+          <input name="user"> <br>
+          <input type="submit">
+          </div>
+        </form>
+        {% if message %}
+        <p>{{ message }}</p>
+        {% endif %}
+        <p><a href="requests_log">What has Wednesday said before?</a></p>
+      </body>
+    </html>

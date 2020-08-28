@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+    <html lang="en" dir="ltr">
+      <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
+      </head>
+      <body>
+        {% block content %}
+            <h1>What has Wednesday said?</h1>
+            <p> The last five requests are shown below.</p>
+            {% for d in data %}
+            <div><p>Text: {{ d.text_request }}<br>User: {{ d.username }}
+            {% endfor %}
+        {% endblock %}
+      </body>
+    </html>
