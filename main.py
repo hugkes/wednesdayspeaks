@@ -21,6 +21,9 @@ limiter = Limiter(
     default_limits=["3 per minute"]
 )
 
+# Setup of database (note subsequent runs of this wont re-create)
+# db.create_all()
+
 # Renders the generic homepage
 @app.route("/")
 def homepage():
