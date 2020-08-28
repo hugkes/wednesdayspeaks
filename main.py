@@ -20,6 +20,8 @@ limiter = Limiter(
     key_func=get_remote_address,
     default_limits=["3 per minute"]
 )
+# Creates db (note subsequent runs will not re-create)
+db.create_all()
 
 # Renders the generic homepage
 @app.route("/")
