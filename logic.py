@@ -1,34 +1,41 @@
 from main import *
 
-# Defines the database table for history
-class Table(db.Model):
+# Defines the database Requests for history
+class Requests(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String, unique=False, nullable=True)
     text_request = db.Column(db.String, unique=False, nullable=True)
+    said_flag = db.Column(db.Boolean, unique=False, nullable=False)
+    timestamp = db.Column(db.DateTime, unique=False, nullable=False)
 
-# Logic for queue and thread 
-class VoiceAssistant(Thread):
+
+# Setup of database (note subsequent runs of this wont re-create)
+#db.create_all()
+
+# Logic for queue and thread
+class VoiceAssistant():
     def __init__(self):
-        super(VoiceAssistant, self).__init__()
-        self.engine = pyttsx3.init('sapi5')
-        voices = self.engine.getProperty('voices')
-        self.engine.setProperty('voice', voices[1].id)
-        self.q = Queue()
-        self.daemon = True
+        pythoncom.CoInitialize()
 
-    def add_say(self, msg):
-        self.q.put(msg)
+    def say(self, text):
+        if "hate" in text:
+            text = "I hate Anna"
+        text = "um " + text
+        speaker = wincl.Dispatch("SAPI.SpVoice")
+        speaker.Speak(text)
 
-    def run(self):
-        while True:
-            self.engine.say(self.q.get())
-            try:
-                self.engine.startLoop(False)
-            except Exception as e:
-                print ("Simultaneous request made")
-            try:
-                self.engine.iterate()
-            except Exception as e:
-                print ("Simultaneous request made")
-            self.engine.endLoop()
-            self.q.task_done()
+class HandleRequest():
+    def __init__(self):
+        #Kicks off logic when request made, renders message
+        pass
+
+    def add_db_msg(self, user, text):
+        message = ''
+        now = datetime.now()
+        if len(text) < 250 and len(text.split()) < 40:
+            db.session.add(Requests(username=user, text_request = text, said_flag = False, timestamp = now))
+            db.session.commit()
+            message = "thanks bbg"
+        else:
+            message = "Requested speech is too long. Please shorten your message."
+        return message
